@@ -42,7 +42,8 @@
                  */
                 to: {
                     type: Object,
-                    notify: true
+                    notify: true,
+                    readOnly: true
                 },
 
                 /**
@@ -73,12 +74,12 @@
             if (this.transform) {
                 let fn = this._fetchTransform();
                 if (fn) {
-                    this.set('to', fn.call({}, this.get('from')));
+                    this._setTo(fn.call({}, this.get('from')));
                 } else {
                     console.error(`<prism-observe> could not find transform method '${this.transform}'`);
                 }
             } else {
-                this.set('to', this.get('from'));
+                this._setTo(this.get('from'));
             }
         }
 
