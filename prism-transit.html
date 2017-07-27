@@ -1,0 +1,117 @@
+<link rel="import" href="../polymer/polymer.html" />
+
+<script>
+    'use strict';
+
+    /**
+     * `<prism-transit>` is a [Polymer 2](http://polymer-project.org/) element provides data transform via it's own function.
+     * 
+     * # Usage
+     * 
+     * ```html
+     * <prism-transit from="[[num]]" to="{{result}}" transform="square">
+     *   function square(n) {
+     *     return n * n;
+     *   }
+     * </prism-transit>
+     * ```
+     *
+     * @memberof Prhythm
+     * @element prism-transit
+     * @customElement
+     * @polymer
+     * @demo demo/index.html Demo
+     */
+    class PrismTransit extends Polymer.Element {
+
+        static get is() {
+            return 'prism-transit';
+        }
+
+        static get properties() {
+            return {
+                /**
+                 * Source value
+                 */
+                from: {
+                    type: Object
+                },
+
+                /**
+                 * Output value
+                 */
+                to: {
+                    type: Object,
+                    notify: true
+                },
+
+                /**
+                 * Function name of transformation
+                 */
+                transform: String
+            }
+        }
+
+        static get observers() {
+            return [
+                '_fromChanged(from.*)'
+            ]
+        }
+
+        constructor() {
+            super();
+            // This element is never visible
+            this.style.display = 'none';
+        }
+
+        /**
+         * Transform and assign source value to output value
+         *
+         * @param value Source value
+         */
+        _fromChanged(value) {
+            if (this.transform) {
+                let fn = this._fetchTransform();
+                if (fn) {
+                    this.set('to', fn.call({}, this.get('from')));
+                } else {
+                    console.error(`<prism-observe> could not find transform method '${this.transform}'`);
+                }
+            } else {
+                this.set('to', this.get('from'));
+            }
+        }
+
+        /**
+         * Get functaion instance of transform
+         *
+         * @return {Function} Function defined inner element block
+         */
+        _fetchTransform() {
+            if (this.transform) {
+                if (!this.sandbox) {
+                    let root = this.createShadowRoot();
+
+                    // Create a iframe for new window instance
+                    let frame = document.createElement('iframe');
+                    root.appendChild(frame);
+
+                    this.sandbox = frame.contentWindow;
+                    let body = frame.contentWindow.document.body;
+                    let script = document.createElement('script');
+                    script.setAttribute('type', 'text/javascript');
+                    script.appendChild(document.createTextNode(this.childNodes[0].nodeValue));
+                    body.appendChild(script);
+                }
+
+                return (this.sandbox || {})[this.transform];
+            } else {
+                return null;
+            }
+        }
+
+    }
+
+    customElements.define(PrismTransit.is, PrismTransit);
+
+</script>

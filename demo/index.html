@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>prism-transit demo</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+  <link rel="import" href="../prism-transit.html">
+
+  <custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+
+    </style>
+  </custom-style>
+</head>
+
+<body>
+  <div class="vertical-section-container centered">
+    <h3>Basic prism-transit demo</h3>
+    <demo-snippet>
+      <template>
+        <dom-bind>
+          <template>
+            <input type="number" max="1000" min="-1000" value="{{num::input}}" />
+            <p>
+              The reuslt [[num]] * [[num]] is [[result]].
+            </p>
+            <prism-transit from="[[num]]" to="{{result}}" transform="square">
+              function square(n) {
+                return n * n;
+              }
+            </prism-transit>
+          </template>
+        </dom-bind>
+        <script>
+          'use strict';
+          document.querySelector('dom-bind').num = 2;
+        </script>
+      </template>
+    </demo-snippet>
+  </div>
+</body>
+
+</html>
