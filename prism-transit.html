@@ -99,10 +99,18 @@
 
                     this.sandbox = frame.contentWindow;
                     let body = frame.contentWindow.document.body;
-                    let script = document.createElement('script');
-                    script.setAttribute('type', 'text/javascript');
-                    script.appendChild(document.createTextNode(this.childNodes[0].nodeValue));
-                    body.appendChild(script);
+
+                    Array.prototype
+                        .filter.call(this.childNodes, node => {
+                            // allow only text content
+                            return node.nodeType == Node.TEXT_NODE;
+                        })
+                        .forEach(node => {
+                            let script = document.createElement('script');
+                            script.setAttribute('type', 'text/javascript');
+                            script.appendChild(document.createTextNode(node.nodeValue));
+                            body.appendChild(script);
+                        });
                 }
 
                 return (this.sandbox || {})[this.transform];
