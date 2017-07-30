@@ -111,6 +111,18 @@
                             script.appendChild(document.createTextNode(node.nodeValue));
                             body.appendChild(script);
                         });
+
+                    Array.prototype
+                        .filter.call(this.childNodes, node => {
+                            // allow text content surrounded with html commnet
+                            return node.nodeType == Node.COMMENT_NODE;
+                        })
+                        .forEach(node => {
+                            let script = document.createElement('script');
+                            script.setAttribute('type', 'text/javascript');
+                            script.appendChild(document.createTextNode(node.nodeValue));
+                            body.appendChild(script);
+                        });
                 }
 
                 return (this.sandbox || {})[this.transform];
