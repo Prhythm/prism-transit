@@ -8,9 +8,21 @@
 
 ```html
 <prism-transit from="[[num]]" to="{{result}}" transform="square">
-    function square(n) {
-        return n * n;
-    }
+  function square(n) {
+    return n * n;
+  }
+</prism-transit>
+```
+
+or use comment if needed
+
+```html
+<prism-transit from="[[num]]" to="{{result}}" transform="square">
+  <!--
+  function square(n) {
+    return n * n;
+  }
+  -->
 </prism-transit>
 ```
 
