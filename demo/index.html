@@ -27,20 +27,44 @@
       <template>
         <dom-bind>
           <template>
-            <input type="number" max="1000" min="-1000" value="{{num::input}}" />
             <p>
-              The reuslt [[num]] * [[num]] is [[result]].
+              Type: <select value="{{type::change}}">
+                <option value="square">Square</option>
+                <option value="circle">Circle</option>
+                <option value="triangle">Triangle</option>
+              </select>
             </p>
-            <prism-transit from="[[num]]" to="{{result}}" transform="square">
-              function square(n) {
-                return n * n;
-              }
+            <div>
+              Length: <input type="number" max="1000" min="1" value="{{size::input}}" />
+            </div>
+            <p>
+              The area of [[type]] of length [[size]] is [[result]].
+            </p>
+            <prism-transit from="[[size]]" to="{{result}}" transform="[[type]]">
+              <!--
+                function square(n) {
+                  return n * n;
+                }
+              -->
+
+                function circle(n) {
+                  return n * n * Math.PI;
+                }
+              
+              <!--
+                function triangle(n) {
+                  n = n*1;
+                  let p = (n+n+n)/2;
+                  return Math.sqrt(p*(p-n)*(p-n)*(p-n));
+                }
+              -->
             </prism-transit>
           </template>
         </dom-bind>
         <script>
           'use strict';
-          document.querySelector('dom-bind').num = 2;
+          document.querySelector('dom-bind').size = 2;
+          document.querySelector('dom-bind').type = 'square';
         </script>
       </template>
     </demo-snippet>
