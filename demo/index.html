@@ -34,11 +34,11 @@
                 <option value="triangle">Triangle</option>
               </select>
             </p>
-            <div>
-              Length: <input type="number" max="1000" min="1" value="{{size::input}}" />
-            </div>
             <p>
-              The area of [[type]] of length [[size]] is [[result]].
+              Length: <input type="number" max="1000" min="1" value="{{size::input}}" />
+            </p>
+            <p>
+              The area of [[type]] with length [[size]] is [[result]].
             </p>
             <prism-transit from="[[size]]" to="{{result}}" transform="[[type]]">
               <!--
