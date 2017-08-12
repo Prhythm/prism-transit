@@ -88,7 +88,7 @@
                 if (fn) {
                     this._setTo(fn.call({}, this.get('from')));
                 } else {
-                    console.error(`<prism-observe> could not find transform method '${this.transform}'`);
+                    console.error(`[${PrismTransit.is}] could not find transform method '${this.transform}'`);
                 }
             } else {
                 this._setTo(this.get('from'));
